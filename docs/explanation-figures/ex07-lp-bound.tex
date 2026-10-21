@@ -1,0 +1,25 @@
+% Ý nghĩa của cận trên LP và gap (minh họa).
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}[x=0.38cm,y=1cm,>={Stealth[length=2.2mm]}]
+\draw[->, thick, black!70] (0,0) -- (42,0) node[right, font=\small] {số alert đến kịp};
+\foreach \t in {0,10,20,30,40} \draw (\t,0.12) -- (\t,-0.12) node[below, font=\small] {\t};
+% achieved
+\fill[blue!60!black] (28,0) circle (5pt);
+\node[font=\small, align=center, text=blue!60!black, anchor=north] at (28,-0.55) {SBS đạt được\\(28 alert)};
+% bound
+\fill[red!70!black] (35,0) circle (5pt);
+\node[font=\small, align=center, text=red!70!black, anchor=north] at (35,-0.55) {cận trên LP\\(35 alert)};
+% unknown optimum zone
+\fill[orange!25] (28.4,0.25) rectangle (34.6,0.9);
+\node[font=\small, align=center] at (31.5,0.57) {tối ưu thật\\nằm đâu đó ở đây};
+\draw[decorate, decoration={brace, amplitude=6pt}, thick] (28,1.15) -- node[above=7pt, font=\small, align=center] {gap $= \dfrac{35-28}{35} = 0{,}20$\\ = \emph{trần} của phần còn cải thiện được} (35,1.15);
+\node[font=\small, align=left, anchor=north west, text width=10cm] at (0,2.6) {%
+  \textbf{Cận trên} = kết quả của một bài toán \emph{nới lỏng} (LP):\\
+  -- cho phép chọn \emph{nửa đường} ($0 \le x \le 1$)\\
+  -- thay đường cong tốc độ bằng 10 tiếp tuyến nằm trên nó\\
+  $\Rightarrow$ dễ hơn và rộng hơn, nên \textbf{không kế hoạch nào vượt qua được}.};
+\node[font=\scriptsize, text=black!60, anchor=west] at (0,-1.8) {(minh họa; số thật ở Table 5: gap của SBS = 0,191, FixedTour = 0,238)};
+\end{tikzpicture}
+\end{document}

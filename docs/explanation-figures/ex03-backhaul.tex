@@ -1,0 +1,26 @@
+% Cổ chai backhaul 50 kbit/s: 3 alert xếp hàng, deadline 10 s; đường vòng cứu alert 3.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}[x=0.8cm,y=1cm,
+  blk/.style={draw=black!60, minimum height=0.6cm, anchor=west, font=\small, inner sep=0pt},
+  lbl/.style={font=\small, anchor=east}]
+\node[font=\bfseries, anchor=west] at (-5.5,5.2) {(a) Cả 3 alert đều đi qua dây $u\to c$ (50 kbit/s, mỗi alert 250 kbit $\Rightarrow$ 5 giây)};
+\node[lbl] at (-0.3,4.3) {dây $u\to c$};
+\node[blk, fill=blue!30, minimum width=4cm] at (0,4.3) {alert 1};
+\node[blk, fill=orange!40, minimum width=4cm] at (5,4.3) {alert 2};
+\node[blk, fill=red!35, minimum width=4cm] at (10,4.3) {};
+\node[font=\small] at (12.5,4.3) {alert 3 -- \textbf{TRỄ}};
+\node[font=\bfseries, anchor=west] at (-5.5,2.9) {(b) Khối đường đi chuyển alert 3 sang đường vòng $u\to w\to c$};
+\node[lbl] at (-0.3,2.0) {dây $u\to c$};
+\node[blk, fill=blue!30, minimum width=4cm] at (0,2.0) {alert 1};
+\node[blk, fill=orange!40, minimum width=4cm] at (5,2.0) {alert 2};
+\node[lbl] at (-0.3,1.1) {đường vòng};
+\node[blk, fill=green!35, minimum width=4cm] at (0,1.1) {alert 3 \faCheck};
+% axis
+\draw[->, black!70] (0,0.3) -- (16.5,0.3) node[right, font=\small] {giây};
+\foreach \t in {0,5,10,15} \draw (\t,0.4) -- (\t,0.2) node[below, font=\small] {\t};
+\draw[red!70!black, very thick, dashed] (10,0.2) -- (10,4.7);
+\node[font=\small, text=red!70!black, anchor=west] at (10.15,3.3) {deadline = 10 s};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,43 @@
+% Generated from docs/report/sections/method.tex (Figure 5 of the report).
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\selectlanguage{english}
+\fontencoding{T1}\selectfont
+\begin{tikzpicture}[x=1cm, y=1cm, >={Stealth[length=1.8mm]},
+    lbl/.style={font=\footnotesize, align=center},
+    small/.style={font=\scriptsize, align=center},
+    nd/.style={circle, draw=black!70, fill=black!12, inner sep=1.5pt},
+    late/.style={circle, fill=red!70!black, inner sep=1.6pt},
+    ontime/.style={circle, fill=green!50!black, inner sep=1.6pt}]
+  % (a) risk detection
+  \node[lbl] at (3.2,3.3) {(a) Risk detection on design realizations};
+  \fill[orange!15] (4.4,0.0) rectangle (5.4,2.6);
+  \draw[->, black!70] (0,0) -- (6.6,0) node[right, small] {slot};
+  \draw[black!70] (0.3,-0.1) -- (0.3,2.6); \node[small, anchor=north] at (0.3,-0.1) {$r_a$};
+  \draw[red!60!black, thick] (5.4,-0.1) -- (5.4,2.6); \node[small, anchor=north, text=red!60!black] at (5.4,-0.1) {$d_a$};
+  \node[small, anchor=north, text=orange!60!black] at (4.9,-0.35) {slack $\le\theta$};
+  \foreach \y/\x/\st [count=\i] in {2.3/2.6/ontime, 1.85/4.7/ontime, 1.4/6.0/late, 0.95/3.4/ontime, 0.5/4.9/ontime} {
+    \node[small, anchor=east] at (0.2,\y) {$\omega_{\i}$};
+    \draw[black!25] (0.3,\y) -- (\x,\y);
+    \node[\st] at (\x,\y) {};
+  }
+  \node[small, text width=6.4cm, anchor=north] at (3.2,-0.8) {completion slot $t_a$ in each design realization; risk $=$ share of realizations that are late or have slack $d_a-1-t_a\le\theta$ (here $3/5$)};
+  % (b) operators
+  \begin{scope}[shift={(8.0,0)}]
+    \node[lbl] at (3.2,3.3) {(b) Repair operators for an at-risk alert};
+    \node[nd, fill=orange!60, regular polygon, regular polygon sides=3, inner sep=1pt] (s) at (0.3,0.9) {};
+    \node[small, anchor=north] at (0.3,0.6) {$s_a$};
+    \node[draw=blue!65!black, fill=blue!10, rounded corners=2pt, font=\scriptsize, inner sep=2pt] (uav) at (2.2,2.4) {UAV};
+    \node[nd] (u) at (3.9,1.6) {}; \node[small, anchor=south] at (3.9,1.7) {$u$};
+    \node[nd] (v) at (2.4,0.1) {}; \node[small, anchor=north] at (2.4,0.0) {$v$};
+    \node[rectangle, fill=black!75, minimum size=6pt, inner sep=0pt] (c) at (5.9,0.9) {}; \node[small, anchor=west] at (6.0,0.9) {$c$};
+    \draw[->, blue!65!black] (s) -- (uav);
+    \draw[->, red!70!black, line width=1.6pt] (uav) -- node[above right, small, text=red!70!black] {bottleneck} (u);
+    \draw[->, black!60] (u) -- (c);
+    \draw[->, green!45!black, dashed, thick] (s) -- (v);
+    \draw[->, green!45!black, dashed, thick] (v) -- (c);
+    \node[small, text width=6.6cm, anchor=north] at (3.2,-0.8) {\textcolor{red!70!black}{Operator 1}: double the weight of the bottleneck hop only within $[r_a,d_a)$;\\ \textcolor{green!45!black}{Operator 2}: switch to a neighbor path, ranked by congested links, then cost};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

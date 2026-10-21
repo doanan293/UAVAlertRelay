@@ -1,0 +1,35 @@
+% Generated from docs/report/sections/method.tex (Figure 2 of the report).
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\selectlanguage{english}
+\fontencoding{T1}\selectfont
+\begin{tikzpicture}[>={Stealth[length=2mm]}, node distance=0.45cm,
+    blk/.style={draw=black!70, rounded corners=2pt, fill=blue!7, text width=4.6cm, minimum height=0.85cm, align=center, font=\footnotesize},
+    rep/.style={blk, fill=orange!12, dashed},
+    io/.style={draw=black!70, fill=black!5, text width=4.6cm, minimum height=0.85cm, align=center, font=\footnotesize},
+    sc/.style={draw=green!40!black, rounded corners=2pt, fill=green!8, text width=4.2cm, align=center, font=\footnotesize, inner sep=5pt}]
+  \node[io] (init) {Initial plan\\FixedTour trajectory, $w\equiv 1$};
+  \node[blk, below=0.8cm of init] (path) {Path block\\neighbors of the current path $\pi_a$};
+  \node[blk, below=of path] (bw) {Bandwidth block\\$w_e\gets 2w_e$ or $w_e/2$};
+  \node[blk, below=of bw] (traj) {Trajectory block\\shift a segment of $q$};
+  \node[rep, below=of traj] (repair) {Risk-driven repair (SBS-R only)};
+  \node[io, below=0.6cm of repair] (out) {Plan $(q,x,w)$};
+  \node[sc, right=1.0cm of bw] (scorer) {\textbf{Design scorer}\\EDF simulation on $M_d=5$ design realizations; lexicographic key (4); one call $=$ one evaluation};
+  \node[sc, right=1.0cm of out, fill=black!5, draw=black!70] (eval) {Out-of-sample evaluation on $M=30$ realizations; LP bound on $q$ over the candidate set};
+  \node[sc, left=1.2cm of out, text width=3.8cm, fill=yellow!10, draw=black!50] (rule) {Accept a change only if the key increases strictly; stop when a round accepts nothing or the budget $E$ is spent};
+  \draw[->] (init) -- (path);
+  \draw[->] (path) -- (bw);
+  \draw[->] (bw) -- (traj);
+  \draw[->] (traj) -- (repair);
+  \draw[->] (repair) -- (out);
+  \draw[->] (out) -- (eval);
+  \draw[->] (repair.west) -- ++(-0.45,0) |- node[pos=0.25, sloped, above, font=\footnotesize] {next round} (path.west);
+  \draw[<->, dashed, green!40!black] (scorer.west) ++(0,0.3) -- ++(-0.65,0) |- (path.east);
+  \draw[<->, dashed, green!40!black] (scorer.west) -- (bw.east);
+  \draw[<->, dashed, green!40!black] (scorer.west) ++(0,-0.3) -- ++(-0.65,0) |- (traj.east);
+  \begin{scope}[on background layer]
+    \node[draw=black!40, dashed, rounded corners=4pt, fit=(path)(bw)(traj)(repair), inner xsep=14pt, inner ysep=6pt, label={[font=\footnotesize, text=black!60, anchor=south east]north east:$\le I_{\max}=10$ rounds}] (loop) {};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,42 @@
+% Kênh PrLoS với tham số thật của báo cáo (Table 3): H = 100 m, a = 9.61, b = 0.16.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}[>={Stealth[length=2mm]}]
+% ---------------- (a) hình học
+\begin{scope}[x=1cm,y=1cm]
+\node[font=\bfseries, anchor=west] at (-0.3,5.4) {(a) Góc ngẩng $\theta$ quyết định khả năng nhìn thẳng};
+\fill[groundgreen!60] (-0.3,0) rectangle (7.2,-0.25);
+\node[text=blue!55!black, font=\Large] (s) at (0.3,0.32) {\faUsers};
+\node[font=\small] at (0.3,-0.55) {nguồn};
+% buildings
+\fill[black!35] (2.6,0) rectangle (3.1,1.4);
+\fill[black!35] (4.4,0) rectangle (5.0,1.1);
+\node[font=\scriptsize, text=black!60] at (3.8,-0.55) {nhà cửa};
+% near UAV
+\node[font=\Large, text=green!45!black] (u1) at (1.2,4.0) {\faHelicopter};
+\draw[green!45!black, thick] (0.45,0.6) -- (1.15,3.7);
+\node[font=\small, text=green!45!black, align=left, anchor=west] at (1.6,4.4) {UAV gần: $\theta$ lớn\\$\Rightarrow$ gần như luôn LoS};
+% far UAV
+\node[font=\Large, text=red!70!black] (u2) at (6.6,2.6) {\faHelicopter};
+\draw[red!70!black, thick, dashed] (0.55,0.45) -- (6.3,2.45);
+\node[font=\large, text=red!70!black] at (2.85,1.25) {\faTimes};
+\node[font=\small, text=red!70!black, align=center] at (6.3,3.4) {UAV xa: $\theta$ nhỏ\\$\Rightarrow$ dễ bị che (NLoS)};
+\draw[black!50, densely dotted] (0.55,0.45) -- (2.0,0.45); \draw[black!70] (1.75,0.45) arc (0:19.2:1.2); \node[font=\small] at (2.0,0.65) {$\theta$};
+\end{scope}
+% ---------------- (b) đường cong
+\begin{axis}[at={(9.6cm,0)}, width=9.5cm, height=6.2cm,
+  title={\textbf{(b) Xác suất LoS theo khoảng cách ngang (độ cao 100 m)}}, title style={font=\normalsize},
+  xlabel={khoảng cách ngang từ UAV đến điểm mặt đất (m)}, ylabel={$P(\mathrm{LoS})$},
+  xmin=0, xmax=800, ymin=0, ymax=1.08, ymajorgrids, xmajorgrids, grid style={black!10},
+  axis lines*=left, tick label style={font=\small}, label style={font=\small}]
+\addplot[very thick, blue!70!black, domain=0:800, samples=200]
+  {1/(1+9.61*exp(-0.16*(atan2(100,x)-9.61)))};
+\addplot[only marks, mark=*, mark size=2.6pt, red!70!black] coordinates {(0,1.0) (100,0.968) (300,0.299) (500,0.12)};
+\node[font=\scriptsize, anchor=south west] at (axis cs:5,1.0) {ngay trên đầu: 1{,}00};
+\node[font=\scriptsize, anchor=west] at (axis cs:110,0.94) {100 m: 0{,}97};
+\node[font=\scriptsize, anchor=south west] at (axis cs:305,0.31) {300 m: 0{,}30};
+\node[font=\scriptsize, anchor=south west] at (axis cs:505,0.13) {500 m: 0{,}12};
+\end{axis}
+\end{tikzpicture}
+\end{document}

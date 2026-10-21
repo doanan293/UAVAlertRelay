@@ -1,0 +1,57 @@
+% Ví dụ đầy đủ (minh họa): 3 alert, so sánh NoUAV, FixedTour, SBS.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\newcommand{\basemap}{%
+  \fill[red!55!brown, opacity=0.15] (5.0,0.9) ellipse (1.0 and 0.9);
+  \node[font=\scriptsize, text=red!50!black] at (5.0,-0.2) {vùng B};
+  \node[text=red!70!black, font=\huge] (c) at (0.2,1.4) {\faHospital};
+  \node[font=\scriptsize] at (0.0,0.7) {trung tâm $c$};
+  \node[text=black!70, font=\Large] (v1) at (2.2,2.8) {\faBroadcastTower}; \node[font=\scriptsize] at (2.2,3.35) {$v_1$};
+  \node[text=black!70, font=\Large] (v2) at (2.4,0.1) {\faBroadcastTower}; \node[font=\scriptsize] at (2.4,-0.45) {$v_2$};
+  \draw[black!55, line width=2.2pt] (c) -- node[above, sloped, font=\scriptsize, text=black] {1000 kbit/s} (v1);
+  \draw[orange!80!black, line width=0.8pt] (c) -- node[below, sloped, font=\scriptsize] {50 kbit/s} (v2);
+  \node[text=blue!55!black, font=\Large] (s1) at (3.8,3.0) {\faUsers}; \node[font=\scriptsize] at (3.8,3.5) {$s_1$: a1};
+  \node[text=blue!55!black, font=\Large] (s2) at (5.0,0.9) {\faUsers}; \node[font=\scriptsize] at (5.0,0.35) {$s_2$: a2, a3};
+}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,>={Stealth[length=2mm]},
+  ttl/.style={font=\bfseries, align=center},
+  res/.style={draw=black!30, fill=black!3, rounded corners, font=\small, align=left, text width=5.6cm, anchor=north},
+  uav/.style={font=\large, text=blue!60!black}]
+% ---------------- NoUAV
+\begin{scope}
+\node[ttl] at (3,4.3) {(1) NoUAV -- không có UAV};
+\basemap
+\draw[->, thick, green!45!black] (s1) -- (v1);
+\node[text=red!70!black, font=\large] at (5.9,1.6) {\faTimes};
+\node[font=\scriptsize, text=red!70!black, align=center] at (5.9,2.15) {không relay\\nào trong tầm};
+\node[res] at (3,-0.9) {a1: \textcolor{green!45!black}{\faCheck\ kịp} (đi mặt đất)\\ a2, a3: \textcolor{red!70!black}{\faTimes\ mất}\\[2pt] \textbf{Kết quả: 1/3 = 0,33}};
+\end{scope}
+% ---------------- FixedTour
+\begin{scope}[xshift=7cm]
+\node[ttl] at (3,4.3) {(2) FixedTour -- tour cố định};
+\basemap
+\draw[->, thick, green!45!black] (s1) -- (v1);
+\node[uav] (U) at (3.6,1.6) {\faHelicopter};
+\node[font=\scriptsize, align=center] at (3.6,2.25) {UAV dừng xa $s_2$};
+\draw[->, red!80!black, thick] (s2) -- (U);
+\draw[->, blue!70!black, thick, dashed] (U) -- (v2);
+\node[res] at (3,-0.9) {a1: \textcolor{green!45!black}{\faCheck\ kịp}\\ a2: \textcolor{red!70!black}{\faTimes\ trễ} (kênh xấu + dây 50 kbit/s)\\ a3: \textcolor{green!45!black}{\faCheck\ kịp}\\[2pt] \textbf{Kết quả: 2/3 = 0,67}};
+\end{scope}
+% ---------------- SBS
+\begin{scope}[xshift=14cm]
+\node[ttl] at (3,4.3) {(3) SBS -- tìm kiếm cục bộ};
+\basemap
+\draw[->, thick, green!45!black] (s1) -- (v1);
+\node[uav, text=black!25] (U0) at (3.6,1.6) {\faHelicopter};
+\node[uav] (U) at (4.7,1.75) {\faHelicopter};
+\draw[->, green!45!black, thick] (U0) -- (U);
+\node[font=\scriptsize, align=center, text=green!40!black] at (5.4,2.45) {\textbf{dịch quỹ đạo}\\sát $s_2$};
+\draw[->, red!80!black, thick] (s2) -- (U);
+\draw[->, blue!70!black, thick, dashed] (U) to[bend right=20] (v1);
+\node[font=\scriptsize, align=center, text=green!40!black] at (3.2,2.35) {\textbf{đổi đường}:\\a2 thả về $v_1$};
+\draw[->, blue!70!black, thick, dashed] (U) -- (v2);
+\node[res] at (3,-0.9) {a1: \textcolor{green!45!black}{\faCheck\ kịp}\\ a2: \textcolor{green!45!black}{\faCheck\ kịp} (né dây 50 kbit/s)\\ a3: \textcolor{green!45!black}{\faCheck\ kịp}\\[2pt] \textbf{Kết quả: 3/3 = 1,0}};
+\end{scope}
+\end{tikzpicture}
+\end{document}

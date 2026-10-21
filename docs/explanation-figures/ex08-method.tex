@@ -1,0 +1,37 @@
+% Cách giải: BCD + SCA của bài gốc vs block search chấm điểm bằng mô phỏng (SBS).
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}[>={Stealth[length=2.2mm]}, node distance=0.42cm,
+  ttl/.style={font=\large\bfseries, align=center},
+  st/.style={draw=black!60, rounded corners=3pt, fill=#1, text width=5.6cm, minimum height=0.9cm, align=center, font=\small},
+  st/.default=blue!8,
+  dec/.style={draw=black!60, diamond, aspect=2.4, fill=yellow!20, font=\small, align=center, inner sep=1pt}]
+% --------------- Huang
+\node[ttl] (h0) at (0,0.2) {(a) Bài gốc: BCD + SCA};
+\node[st=black!5] (h1) at (0,-1.1) {Khởi tạo RSF, công suất, quỹ đạo};
+\node[st] (h2) [below=of h1] {\textbf{Khối 1:} giải bài \emph{lồi} tìm cách chia thời gian (CVX)};
+\node[st] (h3) [below=of h2] {\textbf{Khối 2:} xấp xỉ lồi (SCA), giải tìm công suất};
+\node[st] (h4) [below=of h3] {\textbf{Khối 3:} xấp xỉ lồi (SCA), giải tìm quỹ đạo};
+\node[st=black!5] (h5) [below=of h4] {Lặp tới khi hội tụ};
+\draw[->] (h1) -- (h2); \draw[->] (h2) -- (h3); \draw[->] (h3) -- (h4); \draw[->] (h4) -- (h5);
+\draw[->] (h5.west) -- ++(-0.5,0) |- (h2.west);
+\node[font=\small, text width=6cm, align=center, text=red!70!black] [below=0.5cm of h5] {Cần bài toán \emph{lồi}. Nhưng ``số alert kịp'' là \textbf{đếm}, nhảy bậc $\Rightarrow$ không có xấp xỉ lồi tốt.};
+% --------------- SBS
+\begin{scope}[xshift=8.6cm]
+\node[ttl] at (1.2,0.2) {(b) Bài nhóm: SBS};
+\node[st=black!5] (s1) at (0,-1.1) {Khởi đầu: kế hoạch FixedTour, mọi $w=1$};
+\node[st=green!10] (s2) [below=of s1] {\textbf{Sửa một chút} kế hoạch\\(đổi đường / đổi $w$ / dịch quỹ đạo)};
+\node[st=orange!12] (s3) [below=of s2] {\textbf{Mô phỏng thật} trên 5 mẫu kênh ngẫu nhiên, đếm số alert kịp};
+\node[dec] (s4) [below=0.5cm of s3] {điểm tăng\\thật sự?};
+\node[st=green!20, text width=1.9cm] (yes) at ($(s4)+(-2.2,-1.6)$) {\textbf{giữ}};
+\node[st=red!12, text width=1.9cm] (no) at ($(s4)+(2.2,-1.6)$) {\textbf{bỏ}};
+\draw[->] (s1) -- (s2); \draw[->] (s2) -- (s3); \draw[->] (s3) -- (s4);
+\draw[->] (s4) -| node[pos=0.2, above, font=\small] {có} (yes);
+\draw[->] (s4) -| node[pos=0.2, above, font=\small] {không} (no);
+\draw[->] (yes.south) -- ++(0,-0.4) -| ($(s2.west)+(-1.0,0)$) -- (s2.west);
+\draw[->] (no.south) -- ++(0,-0.4) -| ($(s2.east)+(1.0,0)$) -- (s2.east);
+\node[font=\small, text width=6.4cm, align=center, text=green!35!black] at ($(s4)+(0,-3.2)$) {Dừng khi hết 2000 lần mô phỏng hoặc cả vòng không giữ được gì. Không cần xấp xỉ lồi; đo đúng thứ ta quan tâm.};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,43 @@
+% Generated from docs/report/sections/method.tex (Figure 3 of the report).
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\selectlanguage{english}
+\fontencoding{T1}\selectfont
+\begin{tikzpicture}[x=1cm, y=1cm, >={Stealth[length=2mm]},
+    slot/.style={draw=black!60, fill=black!6, minimum width=2.1cm, minimum height=0.7cm, font=\footnotesize},
+    seg/.style={draw=black!60, minimum height=0.62cm, font=\scriptsize, inner sep=1pt},
+    lbl/.style={font=\footnotesize, align=center},
+    small/.style={font=\scriptsize, align=left}]
+  % slot timeline
+  \node[slot] (s1) at (1.2,0) {slot $n-1$};
+  \node[slot, fill=blue!12, draw=blue!60!black, thick] (s2) at (3.6,0) {slot $n$};
+  \node[slot] (s3) at (6.0,0) {slot $n+1$};
+  \node[lbl] at (7.7,0) {$\cdots$};
+  \node[slot, fill=red!8] (s4) at (9.4,0) {slot $d_a$};
+  \draw[->, black!70] (s2.north) to[bend left=35] node[above, small] {bits received in slot $n$ are forwarded from slot $n+1$} (s3.north);
+  \node[small, text=red!60!black, anchor=west] at (10.6,0) {remaining bits\\of alert $a$ dropped};
+  % zoom box
+  \draw[blue!60!black, dashed] (s2.south west) -- (0,-1.1);
+  \draw[blue!60!black, dashed] (s2.south east) -- (14.6,-1.1);
+  \draw[draw=blue!60!black, rounded corners=3pt] (0,-1.1) rectangle (14.6,-5.0);
+  % access phase
+  \node[lbl, anchor=west] at (0.2,-1.45) {\textbf{Access phase} ($\tau\Delta$)};
+  \node[small, anchor=west, text=black!65] at (0.2,-1.8) {links with queued data share $B_{\mathrm{tot}}$ by weight};
+  \node[seg, fill=green!30, minimum width=3.3cm, anchor=west] (a1) at (0.3,-2.45) {$e_1$: $w=2$ $\to$ 50\%};
+  \node[seg, fill=green!18, minimum width=1.65cm, anchor=west] (a2) at (a1.east) {$e_2$: 25\%};
+  \node[seg, fill=green!8, minimum width=1.65cm, anchor=west] (a3) at (a2.east) {$e_3$: 25\%};
+  \draw[|<->|, black!60] (0.3,-2.95) -- node[below, small] {$B_{\mathrm{tot}}$} (6.9,-2.95);
+  \node[small, anchor=north west, text width=6.6cm] at (0.3,-3.45) {$w_{e_1}=2$, $w_{e_2}=w_{e_3}=1$; link $e_4$ has no queued data and receives nothing. With all weights equal to $1$, the rule reduces to equal sharing.};
+  % downlink phase
+  \draw[black!30] (7.3,-1.25) -- (7.3,-4.85);
+  \node[lbl, anchor=west] at (7.45,-1.45) {\textbf{Downlink phase} ($(1-\tau)\Delta$)};
+  \node[small, anchor=west, text=black!65] at (7.45,-1.8) {two downlinks with the earliest queue heads (EDF)};
+  \node[small, anchor=west] (q1) at (7.6,-2.2) {$u_1$: head deadline $9$ $\to$ \textcolor{green!50!black}{selected}};
+  \node[small, anchor=west] (q2) at (7.6,-2.55) {$u_2$: head deadline $12$ $\to$ \textcolor{green!50!black}{selected}};
+  \node[small, anchor=west, text=black!50] (q3) at (7.6,-2.9) {$u_3$: head deadline $20$ $\to$ not served};
+  \node[seg, fill=blue!12, minimum width=1.65cm, anchor=west] (d1) at (7.75,-3.65) {$u_1$: 25\%};
+  \node[seg, fill=blue!28, minimum width=4.95cm, anchor=west] (d2) at (d1.east) {$u_2$: $w=3$ $\to$ 75\%};
+  \draw[|<->|, black!60] (7.75,-4.15) -- node[below, small] {$B_{\mathrm{tot}}$} (14.35,-4.15);
+\end{tikzpicture}
+\end{document}

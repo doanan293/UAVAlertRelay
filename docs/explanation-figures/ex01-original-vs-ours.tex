@@ -1,0 +1,55 @@
+% Bài gốc (Huang et al.) và bài của nhóm, vẽ cạnh nhau.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,>={Stealth[length=2.2mm]},
+  ttl/.style={font=\large\bfseries, align=center},
+  lbl/.style={font=\small, align=center},
+  box/.style={draw=black!40, rounded corners=6pt, fill=#1, inner sep=6pt},
+  uav/.style={draw=blue!60!black, fill=blue!10, rounded corners=3pt, font=\small\bfseries, inner sep=4pt}]
+% ---------------- (a) bài gốc
+\fill[black!3, rounded corners=8pt] (-0.4,-1.9) rectangle (7.4,6.2);
+\node[ttl] at (3.5,5.7) {(a) Bài gốc -- Huang et al. (2025)};
+\node[uav] (U) at (3.5,4.2) {\faHelicopter\ UAV (2 ăng-ten)};
+\node[text=blue!50!black, font=\huge] (A1) at (0.6,1.6) {\faUser}; \node[lbl] at (0.6,0.95) {A1};
+\node[text=blue!50!black, font=\huge] (A2) at (1.8,0.5) {\faUser}; \node[lbl] at (1.8,-0.15) {A2};
+\node[text=teal!60!black, font=\huge] (B1) at (6.4,1.6) {\faUser}; \node[lbl] at (6.4,0.95) {B1};
+\node[text=teal!60!black, font=\huge] (B2) at (5.2,0.5) {\faUser}; \node[lbl] at (5.2,-0.15) {B2};
+\draw[<->, thick, orange!80!black] (A1) -- (U); \draw[<->, thick, orange!80!black] (U) -- (B1);
+\draw[<->, thick, violet!80!black] (A2) -- (U); \draw[<->, thick, violet!80!black] (U) -- (B2);
+\node[lbl, text=orange!80!black] at (3.5,2.2) {cặp 1: A1 $\leftrightarrow$ B1};
+\node[lbl, text=violet!80!black] at (3.5,1.7) {cặp 2: A2 $\leftrightarrow$ B2};
+\node[lbl, text width=7.2cm] at (3.5,-1.05) {Không có mạng mặt đất, không có deadline.\\[2pt]
+  \textbf{Mục tiêu:} max--min \emph{tốc độ trung bình}\\ (người chậm nhất nhanh nhất có thể).};
+% ---------------- (b) bài của nhóm
+\begin{scope}[xshift=8.4cm]
+\fill[green!4, rounded corners=8pt] (-0.4,-1.9) rectangle (8.4,6.2);
+\node[ttl] at (4.0,5.7) {(b) Bài của nhóm};
+\node[uav] (U2) at (5.4,4.3) {\faHelicopter\ UAV};
+% sources
+\foreach \x/\y/\n in {6.6/2.2/s1, 7.6/1.5/s2, 7.3/2.9/s3} {
+  \node[text=blue!55!black, font=\Large] (\n) at (\x,\y) {\faUsers};
+  \node[text=orange!90!black, font=\scriptsize] at (\x+0.32,\y+0.3) {\faExclamationTriangle};
+}
+\node[lbl, font=\small] at (7.95,3.85) {nguồn\\phát alert};
+% ground network
+\node[text=black!70, font=\Large] (r1) at (2.2,3.2) {\faBroadcastTower};
+\node[text=black!70, font=\Large] (r2) at (4.2,2.1) {\faBroadcastTower};
+\node[text=black!70, font=\Large] (r3) at (2.3,0.6) {\faBroadcastTower};
+\node[text=black!70, font=\Large] (r4) at (5.2,0.4) {\faBroadcastTower};
+\node[text=red!70!black, font=\huge] (C) at (0.4,1.9) {\faHospital};
+\node[lbl] at (0.4,1.15) {trung tâm $c$};
+\draw[black!55, line width=1.6pt] (C) -- (r1) (C) -- (r3) (r1) -- (r2) (r3) -- (r4);
+\draw[orange!80!black, line width=0.7pt] (r2) -- node[below left=-2pt, font=\scriptsize, text=orange!80!black] {50 kbit/s} (r3);
+\draw[red!75!black, line width=1.4pt, dash pattern=on 3pt off 2pt] (r2) -- node[font=\large]{\faTimes} (r4);
+\node[font=\scriptsize, text=red!70!black] at (5.25,1.45) {dây đứt};
+% links
+\draw[->, thick, red!80!black] (s3) -- (U2);
+\draw[->, thick, blue!70!black, dashed] (U2) -- node[left, font=\scriptsize]{thả xuống} (r2);
+\draw[->, thick, green!45!black] (s2) -- (r4);
+\node[lbl, text width=8.6cm, font=\small] at (4.0,-1.05) {+ Mạng relay mặt đất hỏng một phần, dây \emph{có dung lượng hữu hạn}.\\
+  + Mỗi alert có \textbf{deadline} \faClock\ và phải \textbf{chọn đường đi}.\\[2pt]
+  \textbf{Mục tiêu:} tối đa \emph{tỉ lệ alert đến kịp hạn}.};
+\end{scope}
+\end{tikzpicture}
+\end{document}

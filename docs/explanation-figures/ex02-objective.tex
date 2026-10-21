@@ -1,0 +1,24 @@
+% Max-min tốc độ trung bình vs số alert đến kịp: hai kế hoạch P và Q.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=11cm, height=6.4cm, ybar, bar width=0.9cm,
+  ymin=0, ymax=125, ylabel={\% dữ liệu tới trung tâm trước deadline},
+  symbolic x coords={P,Q}, xtick=data, enlarge x limits=0.5,
+  xticklabels={{Kế hoạch P (chia đều)},{Kế hoạch Q (dồn cho 1 alert)}},
+  legend style={at={(0.5,1.03)}, anchor=south, legend columns=2, font=\small, draw=none},
+  nodes near coords={\pgfmathprintnumber{\pgfplotspointmeta}\%}, every node near coord/.append style={font=\small},
+  ymajorgrids, grid style={black!10}, axis lines*=left, tick label style={font=\small}]
+\addplot[fill=blue!45, draw=blue!60!black] coordinates {(P,50) (Q,100)};
+\addplot[fill=orange!55, draw=orange!70!black] coordinates {(P,50) (Q,0)};
+\legend{Alert 1, Alert 2}
+\draw[red!70!black, thick, dashed] (rel axis cs:0,0.8) -- (rel axis cs:1,0.8) node[pos=0.02, above right, font=\small, text=red!70!black] {cần đủ 100\% mới tính là đến kịp};
+\end{axis}
+\node[draw=black!30, fill=black!3, rounded corners, align=left, font=\small, anchor=north west] at (11.2,4.6) {%
+  \textbf{Max--min tốc độ TB (bài gốc)}\\ P: min = 12{,}5 kbit/s \textcolor{green!45!black}{\faCheck\ tốt hơn}\\ Q: min = 0 kbit/s\\[6pt]
+  \textbf{Số alert đến kịp (bài nhóm)}\\ P: \textbf{0} alert\\ Q: \textbf{1} alert \textcolor{green!45!black}{\faCheck\ tốt hơn}};
+\node[font=\scriptsize, text=black!60, anchor=north west] at (11.2,0.3) {(minh họa: 2 alert $\times$ 250 kbit, deadline 10 s)};
+\end{tikzpicture}
+\end{document}

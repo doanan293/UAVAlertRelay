@@ -1,0 +1,35 @@
+% Chứng minh NP-hard: quy về PARTITION với 6 alert kích thước 3,1,1,2,2,1.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,>={Stealth[length=2.2mm]},
+  nd/.style={circle, draw=black!70, fill=black!10, minimum size=0.75cm, font=\small},
+  al/.style={draw=black!60, minimum width=0.9cm, anchor=south, inner sep=0pt, font=\small}]
+\node[font=\bfseries, anchor=west] at (-0.6,4.6) {(a) Mạng dựng từ bài PARTITION};
+\node[text=blue!55!black, font=\huge] (s) at (0,2) {\faUsers};
+\node[font=\small, align=center] at (0,0.9) {1 nguồn,\\6 alert};
+\node[nd] (v1) at (3,3.3) {$v_1$}; \node[nd] (v2) at (3,0.7) {$v_2$};
+\node[text=red!70!black, font=\huge] (c) at (6.2,2) {\faHospital};
+\draw[->, thick, green!45!black] (s) -- (v1); \draw[->, thick, green!45!black] (s) -- (v2);
+\draw[->, line width=2pt, black!55] (v1) -- node[above, sloped, font=\small, text=black] {chở tối đa 5} (c);
+\draw[->, line width=2pt, black!55] (v2) -- node[below, sloped, font=\small, text=black] {chở tối đa 5} (c);
+\node[font=\small, align=left, anchor=north west] at (-0.6,-0.1) {kích thước: \textbf{3, 1, 1, 2, 2, 1} (tổng 10)\\mỗi alert phải chọn \emph{đúng 1} đường: qua $v_1$ hoặc $v_2$};
+\begin{scope}[xshift=9.2cm]
+\node[font=\bfseries, anchor=west] at (-0.8,4.6) {(b) Giao kịp cả 6 alert $\Leftrightarrow$ chia được 2 nhóm tổng = 5};
+\foreach \x/\t in {0/qua $v_1$, 3.2/qua $v_2$} {
+  \draw[thick, black!70] (\x-0.6,4) -- (\x-0.6,0) -- (\x+0.6,0) -- (\x+0.6,4);
+  \node[font=\small] at (\x,-0.35) {\t};
+}
+\draw[red!70!black, dashed, thick] (-0.9,3.75) -- (3.9,3.75) node[right, font=\small, text=red!70!black] {dung lượng = 5};
+% bin v1: 3,2
+\node[al, fill=blue!35, minimum height=2.25cm] at (0,0) {3};
+\node[al, fill=orange!45, minimum height=1.5cm] at (0,2.25) {2};
+% bin v2: 1,1,2,1
+\node[al, fill=teal!35, minimum height=0.75cm] at (3.2,0) {1};
+\node[al, fill=violet!30, minimum height=0.75cm] at (3.2,0.75) {1};
+\node[al, fill=orange!45, minimum height=1.5cm] at (3.2,1.5) {2};
+\node[al, fill=teal!35, minimum height=0.75cm] at (3.2,3.0) {1};
+\node[font=\small, align=left, anchor=north west, text width=7.2cm] at (-0.8,-0.75) {Nếu giải nhanh được bài của nhóm thì giải nhanh được PARTITION (đã biết là NP-hard)\\ $\Rightarrow$ bài toán \textbf{NP-hard}, kể cả khi quỹ đạo UAV đã cố định.};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,54 @@
+% Generated from docs/report/sections/method.tex (Figure 4 of the report).
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\selectlanguage{english}
+\fontencoding{T1}\selectfont
+\begin{tikzpicture}[x=1cm, y=1cm, >={Stealth[length=1.8mm]},
+    lbl/.style={font=\footnotesize, align=center},
+    small/.style={font=\scriptsize, align=center},
+    nd/.style={circle, draw=black!70, fill=black!12, inner sep=1.5pt},
+    src/.style={regular polygon, regular polygon sides=3, fill=orange!60, draw=red!60!black, inner sep=0.8pt},
+    ctr/.style={rectangle, fill=black!75, minimum size=6pt, inner sep=0pt},
+    pt/.style={circle, fill=blue!65!black, inner sep=1.3pt},
+    newpt/.style={circle, fill=green!45!black, inner sep=1.3pt}]
+  % (a) path neighbors
+  \node[lbl] at (3.0,4.1) {(a) Neighbors of the path of alert $a$};
+  \node[src] (s) at (0.2,1.6) {}; \node[small, anchor=east] at (0.05,1.6) {$s_a$};
+  \node[draw=blue!65!black, fill=blue!10, rounded corners=2pt, font=\scriptsize, inner sep=2pt] (uav) at (1.4,3.3) {UAV};
+  \node[nd] (v1) at (1.5,1.6) {}; \node[small, anchor=north] at (1.5,1.45) {$v$};
+  \node[nd] (u) at (3.2,1.6) {}; \node[small, anchor=north] at (3.2,1.45) {$u$};
+  \node[nd] (w) at (3.9,0.4) {};
+  \node[nd] (v2) at (2.6,3.0) {}; \node[small, anchor=south] at (2.6,3.1) {$v'$};
+  \node[ctr] (c) at (5.4,1.6) {}; \node[small, anchor=west] at (5.5,1.6) {$c$};
+  \draw[->, black!70, thick] (s) -- (v1);
+  \draw[->, black!70, thick] (v1) -- (u);
+  \draw[->, red!70!black, line width=1.6pt] (u) -- node[below, small, text=red!70!black] {congested} (c);
+  \draw[->, green!45!black, dashed, thick] (u) -- (w);
+  \draw[->, green!45!black, dashed, thick] (w) -- (c);
+  \draw[->, blue!65!black, dashed] (s) -- (uav);
+  \draw[->, blue!65!black, dashed] (uav) -- (v1);
+  \draw[->, violet!70!black, dotted, thick] (s) to[bend left=10] (v2);
+  \draw[->, violet!70!black, dotted, thick] (v2) -- (c);
+  \node[small, text width=6.2cm, anchor=north] at (3.0,-0.2) {current path $s_a\to v\to u\to c$ (solid); \textcolor{blue!65!black}{kind switch} via the UAV to $v$; \textcolor{violet!70!black}{entry switch} to $v'$ drawn by $1/T_a(v')$; \textcolor{green!45!black}{detour} around the congested edge from $u$; skip};
+  % (b) segment shift
+  \begin{scope}[shift={(7.4,0)}]
+    \node[lbl] at (3.2,4.1) {(b) Shift of a trajectory segment};
+    \node[src] (s1) at (5.6,3.2) {}; \node[small, anchor=west] at (5.75,3.2) {$s_1$};
+    \node[src] (s2) at (5.6,0.2) {}; \node[small, anchor=west] at (5.75,0.2) {$s_2$};
+    \foreach \x/\n in {0.4/0,1.4/1,2.4/2} \node[pt] (p\n) at (\x,1.4) {};
+    \node[pt] (p3) at (3.3,1.4) {}; \node[pt] (p4) at (4.0,1.4) {}; \node[pt] (p5) at (4.7,1.4) {};
+    \draw[blue!65!black] (p0) -- (p1) -- (p2) -- (p3) -- (p4) -- (p5);
+    \node[small, anchor=north] at (2.4,1.25) {$q[i-1]$};
+    \node[small, anchor=north] at (4.7,1.25) {$q[j+1]$};
+    \draw[black!40, dashed] (2.4,1.4) circle (1.0);
+    \draw[black!40, dashed] (4.7,1.4) circle (1.0);
+    \node[newpt] (n3) at (3.3,2.0) {}; \node[newpt] (n4) at (4.0,2.0) {};
+    \draw[green!45!black, thick] (p2) -- (n3) -- (n4) -- (p5);
+    \draw[->, green!45!black] (3.65,1.45) -- node[left, small, text=green!45!black] {$\lambda u$} (3.65,1.95);
+    \draw[->, orange!70!black, dashed] (n4) -- (s1);
+    \draw[->, orange!70!black, dashed, black!30] (p4) -- (s2);
+    \node[small, text width=6.4cm, anchor=north] at (3.2,-0.2) {the segment $q[i..j]$ (here two points) moves by $\lambda u$ toward the source whose saturated uplink has the highest priority; the dashed circles of radius $V_{\max}\Delta$ around $q[i-1]$ and $q[j+1]$ bound $\lambda$ by (10)};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

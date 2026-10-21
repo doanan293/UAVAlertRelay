@@ -1,0 +1,22 @@
+% Kết quả chính (Table 5): tỉ lệ alert đến kịp trên 30 kịch bản.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=15cm, height=7cm, ybar, bar width=0.62cm, ymin=0, ymax=0.68,
+  ylabel={tỉ lệ alert đến kịp},
+  symbolic x coords={NoUAV,FixedTour,SBS,SBS-R,SBS-Lex}, xtick=data, enlarge x limits=0.12,
+  nodes near coords={\pgfmathprintnumber[fixed,fixed zerofill,precision=3]{\pgfplotspointmeta}}, every node near coord/.append style={font=\scriptsize, /pgf/number format/use comma},
+  legend style={at={(0.5,1.03)}, anchor=south, legend columns=2, font=\small, draw=none},
+  ymajorgrids, grid style={black!10}, axis lines*=left, tick label style={font=\small}, label style={font=\small}]
+\addplot[fill=blue!45, draw=blue!60!black] coordinates {(NoUAV,0.413) (FixedTour,0.494) (SBS,0.559) (SBS-R,0.560) (SBS-Lex,0.369)};
+\addplot[fill=orange!55, draw=orange!70!black] coordinates {(NoUAV,0.370) (FixedTour,0.430) (SBS,0.517) (SBS-R,0.521) (SBS-Lex,0.336)};
+\legend{Wide (backhaul 1000 kbit/s), Narrow (backhaul 50 kbit/s)}
+\end{axis}
+\node[draw=green!40!black, fill=green!6, rounded corners, font=\small, align=left, anchor=north west, text width=5.2cm] at (14.2,5.3) {%
+  \textbf{SBS vs FixedTour}\\ +0,065 (Wide), +0,087 (Narrow)\\ thắng trên \textbf{10/10} topology\\ $p_{\mathrm{Holm}} = 0{,}0156$};
+\node[draw=black!30, fill=black!3, rounded corners, font=\small, align=left, anchor=north west, text width=5.2cm] at (14.2,3.1) {%
+  \textbf{SBS-R:} repair gần như không thêm gì (+0,002).\\
+  \textbf{SBS-Lex:} mục tiêu công bằng làm \emph{giảm} 0,190.};
+\end{tikzpicture}
+\end{document}

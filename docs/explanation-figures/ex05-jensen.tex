@@ -1,0 +1,21 @@
+% Ví dụ Jensen: UAV cách 300 m, P(LoS)=0.3, LoS cho 198 kbit/slot, NLoS ~0; alert 250 kbit, 5 slot.
+\documentclass[border=6pt]{standalone}
+\input{fig-preamble}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=11cm, height=6.6cm, ybar, bar width=0.85cm, bar shift=0pt,
+  xlabel={số slot có LoS trong 5 slot}, ylabel={xác suất},
+  xtick={0,...,5}, ymin=0, ymax=0.46, ymajorgrids, grid style={black!10}, axis lines*=left,
+  nodes near coords={\pgfmathprintnumber[fixed,precision=3]{\pgfplotspointmeta}}, every node near coord/.append style={font=\small},
+  tick label style={font=\small}, label style={font=\small},
+  legend style={at={(0.98,0.97)}, anchor=north east, font=\small}]
+\addplot[fill=red!45, draw=red!70!black] coordinates {(0,0.168) (1,0.360)};
+\addplot[fill=green!45, draw=green!50!black] coordinates {(2,0.309) (3,0.132) (4,0.028) (5,0.002)};
+\legend{trễ ($\le$ 198 kbit $<$ 250), kịp ($\ge$ 396 kbit)}
+\end{axis}
+\node[draw=black!30, fill=black!3, rounded corners, align=left, font=\small, anchor=north west, text width=6.2cm] at (10.3,5.2) {%
+  \textbf{Tính theo trung bình}\\ 59 kbit/slot $\times$ 5 = 295 kbit $\ge$ 250\\ $\Rightarrow$ \textcolor{green!45!black}{chắc chắn kịp}\\[6pt]
+  \textbf{Thực tế (mô phỏng ngẫu nhiên)}\\ cần $\ge$ 2 slot LoS\\ $P(\text{kịp}) = 0{,}31+0{,}13+0{,}03+0{,}00 \approx$ \textbf{0{,}47}\\ $\Rightarrow$ \textcolor{red!70!black}{trễ hơn một nửa số lần!}};
+\node[font=\scriptsize, text=black!60, anchor=north west, text width=6.2cm] at (10.3,0.6) {UAV cách nguồn 300 m (số liệu kênh thật của báo cáo), alert 250 kbit còn 5 slot.};
+\end{tikzpicture}
+\end{document}
